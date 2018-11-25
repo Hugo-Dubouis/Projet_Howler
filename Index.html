@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="css/Projet_Howler.css" />
+	<title>Démo projet JS - Howler</title>
+	<meta charset="utf-8" />
+</head>
+
+<body>
+
+
+
+	<div class="Principal">
+
+
+		<!-- Header -->
+		<div class="header">
+
+			<h1 class="Titre_header">Démo Howler JS</h1>
+
+		</div>
+
+
+		<div class="Lecteur">
+			<!-- Top Info -->
+			<div id="title">
+				<span id="track"></span>
+				<div id="Div_Timer">
+					<div id="timer">0:00</div>
+					<p>&nbsp;
+						/&nbsp;
+					</p>
+					<div id="duration">0:00</div></div>
+
+
+			</div>
+
+			<!-- Controls -->
+			<div class="ContnerControls">
+				<div class="btn" id="volumeBtn">
+					<img src="./img/Sound.png" id="volumeBtn" />
+				</div>
+				<div id="volume">
+					<div id="barFull" class="bar"></div>
+					<div id="barEmpty" class="bar"></div>
+					<div id="sliderBtn"></div>
+				</div>
+				<div class="btn" id="prevBtn">
+					<img src="./img/Previous.png" id="prevBtn" />
+				</div>
+				<div class="btn" id="playBtn">
+					<img src="./img/Play.png" id="playBtn" />
+				</div>
+				<div class="btn" id="pauseBtn">
+					<img src="./img/Pause.png" id="pauseBtn" />
+				</div>
+
+				<div class="btn" id="nextBtn">
+					<img src="./img/Next.png" id="nextBtn" />
+				</div>
+			</div>
+
+			<!-- Progress -->
+			<div id="waveform"></div>
+			<div id="bar"></div>
+			<div id="progress"></div>
+
+			<!-- Playlist -->
+			<div id="playlist">
+				<div id="list"></div>
+			</div>
+
+			<!-- Volume -->
+
+		</div>
+
+
+
+
+
+		<!-- Pied de page -->
+		<div class="footer">
+
+			<p> LP CIASIE 
+
+
+			</p>
+
+		</div>
+	</div>
+
+
+
+	<!-- Scripts -->
+	<script src="./src/jquery-1.10.2.min.js"></script>
+	<script src="./src/howler.core.js"></script>
+	<script src="./src/plugins/howler.spatial.js"></script>
+	<script src="./src/player.js"></script>
+	<script src="./src/siriwave.js"></script>
+
+</body>
+
+</html>
