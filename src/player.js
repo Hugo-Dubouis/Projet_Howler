@@ -329,9 +329,13 @@ for(var i=0; i<songs.length;i++){
   elt = songs[i];
   elt.addEventListener('click',function(event){
     activSong = document.getElementsByClassName('activ-song');
-    if(activSong[0]!=undefined){
-      activSong[0].classList.remove('activ-song');
-    }    
+    removeActivSong();    
     event.target.classList.add('activ-song');
   });
 };
+
+function removeActivSong(){
+  if(activSong[0]!=undefined){
+    activSong[0].classList.remove('activ-song');
+  }
+}
