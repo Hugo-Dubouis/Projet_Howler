@@ -160,7 +160,7 @@ Player.prototype = {
 
     // Update the display on the slider.
     var barWidth = (val* 90) / 100;
-    barFull.style.width = (barWidth * 100) + '%';
+    barFull.style.width = (barWidth * 100) + '%';    
   },
 
   /**
@@ -257,6 +257,10 @@ var player = new Player([
   }
 ]);
 
+//Init
+player.volume(0.5);
+document.getElementsByClassName('list-song')[0].classList.add('activ-song');
+
 // Bind our player controls.
 playBtn.addEventListener('click', function() {
   player.play();
@@ -316,3 +320,18 @@ var move = function(event) {
 
 volume.addEventListener('mousemove', move);
 volume.addEventListener('touchmove', move);
+
+//Set eventlistener on songs
+var activSong;
+var elt;
+var songs = document.getElementsByClassName("list-song");
+for(var i=0; i<songs.length;i++){
+  elt = songs[i];
+  elt.addEventListener('click',function(event){
+    activSong = document.getElementsByClassName('activ-song');
+    if(activSong[0]!=undefined){
+      activSong[0].classList.remove('activ-song');
+    }    
+    event.target.classList.add('activ-song');
+  });
+};
