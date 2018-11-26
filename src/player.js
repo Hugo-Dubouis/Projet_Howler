@@ -138,7 +138,12 @@ Player.prototype = {
 
     // Stop the current track.
     if (self.playlist[self.index].howl) {
-      self.playlist[self.index].howl.stop();
+      self.playlist[self.index].howl.stop();      
+    }
+    
+    removeActivSong();
+    if(document.getElementsByClassName('list-song')!=undefined){
+      document.getElementsByClassName('list-song')[index].classList.add('activ-song');
     }
 
     // Reset progress.
@@ -159,8 +164,9 @@ Player.prototype = {
     Howler.volume(val);
 
     // Update the display on the slider.
-    var barWidth = (val* 90) / 100;
-    barFull.style.width = (barWidth * 100) + '%';    
+    var barWidth = val* 90;    
+    barFull.style.width = barWidth + '%'; 
+    sliderBtn.style.left = barWidth + '%';
   },
 
   /**
@@ -217,7 +223,7 @@ Player.prototype = {
    */
   toggleVolume: function() {
     var self = this;
-    var display = volume.style('display','block');
+    //var display = volume.style('display','block');
 
     // setTimeout(function() {
     //   volume.style.display = display;
@@ -261,6 +267,7 @@ var player = new Player([
 player.volume(0.5);
 document.getElementsByClassName('list-song')[0].classList.add('activ-song');
 
+
 // Bind our player controls.
 playBtn.addEventListener('click', function() {
   player.play();
@@ -274,9 +281,9 @@ prevBtn.addEventListener('click', function() {
 nextBtn.addEventListener('click', function() {
   player.skip('next');
 });
-waveform.addEventListener('click', function(event) {
+/*waveform.addEventListener('click', function(event) {
   player.seek(event.clientX / window.innerWidth);
-});
+});*/
 // playlistBtn.addEventListener('click', function() {
 //   player.togglePlaylist();
 // });
@@ -292,7 +299,7 @@ volume.addEventListener('click', function() {
 
 // Setup the event listeners to enable dragging of volume slider.
 barEmpty.addEventListener('click', function(event) {
-  var per = (event.layerX-barEmpty.offsetLeft) / parseFloat(barEmpty.scrollWidth);
+  var per = event.layerX / parseFloat(barEmpty.scrollWidth);
   player.volume(per);
 });
 sliderBtn.addEventListener('mousedown', function() {
@@ -311,9 +318,7 @@ volume.addEventListener('touchend', function() {
 var move = function(event) {
   if (window.sliderDown) {
     var x = event.clientX || event.touches[0].clientX;
-    var startX = window.innerWidth * 0.05;
-    var layerX = x - startX;
-    var per = Math.min(1, Math.max(0, layerX / parseFloat(barEmpty.scrollWidth)));
+    var per = (x-event.currentTarget.offsetLeft) / parseFloat(barEmpty.scrollWidth);    
     player.volume(per);
   }
 };
@@ -327,15 +332,15 @@ var elt;
 var songs = document.getElementsByClassName("list-song");
 for(var i=0; i<songs.length;i++){
   elt = songs[i];
-  elt.addEventListener('click',function(event){
-    activSong = document.getElementsByClassName('activ-song');
-    removeActivSong();    
+  elt.addEventListener('click',function(event){    
+    removeActivSong();
     event.target.classList.add('activ-song');
   });
 };
 
 function removeActivSong(){
-  if(activSong[0]!=undefined){
+  activSong = document.getElementsByClassName('activ-song');
+  if(activSong!=undefined){
     activSong[0].classList.remove('activ-song');
   }
 }
