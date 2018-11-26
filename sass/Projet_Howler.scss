@@ -9,7 +9,11 @@
     }
     
     
-    
+  
+html{
+  min-height:100%;
+}
+
 body
     {
     margin:1px;
@@ -19,14 +23,14 @@ body
     
 div.Principal
     {
-    -moz-box-shadow: 8px 8px 15px 4px #656565;                                                       /*bordure*/
-    -webkit-box-shadow: 8px 8px 15px 4px #656565;													 /*bordure*/
-    box-shadow: 8px 8px 15px 4px #656565; 															 /*bordure*/
+    -moz-box-shadow: 0px 0px 10px 6px #656565;                                                       /*bordure*/
+    -webkit-box-shadow: 0px 0px 10px 6px #656565;													 /*bordure*/
+    box-shadow: 0px 0px 10px 6px #656565; 															 /*bordure*/
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=134, Strength=15);      /*bordure*/
     margin:auto; 
     background-color:$BackGroundColor_Lecteur;
     width:75%;
-    min-width: 800px;
+    min-width: 700px;
     }
     
 .Principal .header{
@@ -104,7 +108,7 @@ div.footer p
 
 .ContnerControls{
   background-color: #34302f;
-  height: 500px;
+  height: 441px;
   display: flex;
   padding-top: 30px;
 }

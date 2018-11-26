@@ -159,7 +159,7 @@ Player.prototype = {
     Howler.volume(val);
 
     // Update the display on the slider.
-    var barWidth = (val * 90) / 100;
+    var barWidth = (val* 90) / 100;
     barFull.style.width = (barWidth * 100) + '%';
   },
 
@@ -288,7 +288,7 @@ volume.addEventListener('click', function() {
 
 // Setup the event listeners to enable dragging of volume slider.
 barEmpty.addEventListener('click', function(event) {
-  var per = event.layerX / parseFloat(barEmpty.scrollWidth);
+  var per = (event.layerX-barEmpty.offsetLeft) / parseFloat(barEmpty.scrollWidth);
   player.volume(per);
 });
 sliderBtn.addEventListener('mousedown', function() {
