@@ -75,14 +75,14 @@ Player.prototype = {
     track.innerHTML = (index + 1) + '. ' + data.title;
 
     // Show the pause button.
-    if (sound.state() === 'loaded') {
+    //if (sound.state() === 'loaded') {
       playBtn.style.display = 'none';
       pauseBtn.style.display = 'block';
-    } else {
+    //} else {
       //loading.style.display = 'block';
-      playBtn.style.display = 'none';
-      pauseBtn.style.display = 'none';
-    }
+     // playBtn.style.display = 'none';
+     // pauseBtn.style.display = 'none';
+    //}
 
     // Keep track of the index we are currently playing.
     self.index = index;
