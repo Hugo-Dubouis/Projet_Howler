@@ -159,7 +159,7 @@ Player.prototype = {
     Howler.volume(val);
 
     // Update the display on the slider.
-    var barWidth = (val * 90) / 100;
+    var barWidth = (val* 90) / 100;
     barFull.style.width = (barWidth * 100) + '%';
   },
 
