@@ -206,32 +206,6 @@ Player.prototype = {
   },
 
   /**
-   * Toggle the playlist display on/off.
-   */
-  togglePlaylist: function() {
-    var self = this;
-    var display = (playlist.style.display === 'block') ? 'none' : 'block';
-
-    setTimeout(function() {
-      playlist.style.display = display;
-    }, (display === 'block') ? 0 : 500);
-    playlist.className = (display === 'block') ? 'fadein' : 'fadeout';
-  },
-
-  /**
-   * Toggle the volume display on/off.
-   */
-  toggleVolume: function() {
-    var self = this;
-    //var display = volume.style('display','block');
-
-    // setTimeout(function() {
-    //   volume.style.display = display;
-    // }, (display === 'block') ? 0 : 500);
-    // volume.className = (display === 'block') ? 'fadein' : 'fadeout';
-  },
-
-  /**
    * Format the time from seconds to M:SS.
    * @param  {Number} secs Seconds to format.
    * @return {String}      Formatted time.
@@ -281,15 +255,6 @@ prevBtn.addEventListener('click', function() {
 nextBtn.addEventListener('click', function() {
   player.skip('next');
 });
-/*waveform.addEventListener('click', function(event) {
-  player.seek(event.clientX / window.innerWidth);
-});*/
-// playlistBtn.addEventListener('click', function() {
-//   player.togglePlaylist();
-// });
-// playlist.addEventListener('click', function() {
-//   player.togglePlaylist();
-// });
 volumeBtn.addEventListener('click', function() {
   player.toggleVolume();
 });
@@ -318,7 +283,7 @@ volume.addEventListener('touchend', function() {
 var move = function(event) {
   if (window.sliderDown) {
     var x = event.clientX || event.touches[0].clientX;
-    var per = (x-event.currentTarget.offsetLeft) / parseFloat(barEmpty.scrollWidth);    
+    var per = Math.min(1, Math.max(0, (x-event.currentTarget.offsetLeft) / parseFloat(barEmpty.scrollWidth)));    
     player.volume(per);
   }
 };
@@ -343,4 +308,26 @@ function removeActivSong(){
   if(activSong!=undefined){
     activSong[0].classList.remove('activ-song');
   }
+}
+
+function addSong(){
+  song = {
+    title: 'song',
+    file: '10YODW',
+    howl: null
+  };
+
+  player.playlist.push(song);
+
+  var div = document.createElement('div');
+    div.className = 'list-song';
+    div.innerHTML = song.title;
+    div.onclick = function() {
+      player.skipTo(player.playlist.indexOf(song));
+    };
+    list.appendChild(div);
+}
+
+function mute(){
+  player.volume(0);
 }

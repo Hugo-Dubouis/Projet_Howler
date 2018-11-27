@@ -226,6 +226,8 @@ div.footer p
   /* Plylist */
   #playlist {
     background-color: rgba(0, 0, 0, 0.5);
+    height: 360px;
+    overflow: auto;
   }
   #list {
     display: -webkit-box;
