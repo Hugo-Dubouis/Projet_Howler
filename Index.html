@@ -22,8 +22,10 @@
 		</div>
 
 		<!-- Progress -->			
-		<div id="bar"></div>
-		<div id="progress" style="height:1em;"></div>
+		<div id="bar"></div>		
+		<div id="progCtr" style="width:75%;min-width:700px;height:1em;position: absolute;"></div>
+		<div id="progress" style="height:1em;"></div>	
+		
 
 		<div class="Lecteur">
 			<!-- Top Info -->
@@ -63,7 +65,7 @@
 					</div>
 					
 					<div style="display:flex;align-items: center;">
-						<img class ="btn" id="addBtn" src="./img/Shuffle.png">
+						<img class ="btn" src="./img/Shuffle.png" onclick="setRandom()">
 						<img class ="btn" id="addBtn" src="./img/plus.png" onclick="addSong()">
 					</div>
 					

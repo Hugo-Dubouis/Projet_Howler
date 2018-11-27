@@ -14,6 +14,8 @@ elms.forEach(function(elm) {
   window[elm] = document.getElementById(elm);
 });
 
+var isRandom = false;
+
 /**
  * Player class containing the state of our playlist and where we are in it.
  * Includes all methods for playing, skipping, updating the display, etc.
@@ -65,6 +67,14 @@ Player.prototype = {
           requestAnimationFrame(self.step.bind(self));
 
         },
+        onend: function(){
+          if(isRandom){
+            var idrand = Math.floor(Math.random() * player.playlist.length);
+            self.skipTo(idrand);
+          }else{
+            self.skip('next');
+          }    
+        },
       });
     }
 
@@ -86,7 +96,7 @@ Player.prototype = {
 
     // Keep track of the index we are currently playing.
     self.index = index;
-  },
+  },  
 
   /**
    * Pause the currently playing track.
@@ -241,7 +251,6 @@ var player = new Player([
 player.volume(0.5);
 document.getElementsByClassName('list-song')[0].classList.add('activ-song');
 
-
 // Bind our player controls.
 playBtn.addEventListener('click', function() {
   player.play();
@@ -254,12 +263,6 @@ prevBtn.addEventListener('click', function() {
 });
 nextBtn.addEventListener('click', function() {
   player.skip('next');
-});
-volumeBtn.addEventListener('click', function() {
-  player.toggleVolume();
-});
-volume.addEventListener('click', function() {
-  player.toggleVolume();
 });
 
 // Setup the event listeners to enable dragging of volume slider.
@@ -278,6 +281,9 @@ volume.addEventListener('mouseup', function() {
 });
 volume.addEventListener('touchend', function() {
   window.sliderDown = false;
+});
+document.getElementById('progCtr').addEventListener('click', function(event) {
+  player.seek(event.clientX / (event.currentTarget.offsetLeft +event.currentTarget.clientWidth) );
 });
 
 var move = function(event) {
@@ -330,4 +336,8 @@ function addSong(){
 
 function mute(){
   player.volume(0);
+}
+
+function setRandom(){
+  isRandom = !isRandom;  
 }
