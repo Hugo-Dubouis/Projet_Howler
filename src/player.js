@@ -1,15 +1,5 @@
-/*!
- *  Howler.js Audio Player Demo
- *  howlerjs.com
- *
- *  (c) 2013-2018, James Simpson of GoldFire Studios
- *  goldfirestudios.com
- *
- *  MIT License
- */
-
 // Cache references to DOM elements.
-var elms = ['track', 'timer', 'duration', 'playBtn', 'pauseBtn', 'prevBtn', 'nextBtn', 'playlistBtn', 'volumeBtn', 'progress', 'bar', 'wave', 'loading', 'playlist', 'list', 'volume', 'barEmpty', 'barFull', 'sliderBtn'];
+var elms = ['track', 'timer', 'duration', 'playBtn', 'pauseBtn', 'prevBtn', 'nextBtn', 'playlistBtn', 'volumeBtn', 'progress', 'bar', 'loading', 'playlist', 'list', 'volume', 'barEmpty', 'barFull', 'sliderBtn'];
 elms.forEach(function(elm) {
   window[elm] = document.getElementById(elm);
 });
@@ -84,15 +74,9 @@ Player.prototype = {
     // Update the track display.
     track.innerHTML = (index + 1) + '. ' + data.title;
 
-    // Show the pause button.
-    //if (sound.state() === 'loaded') {
+    // Show pause button.
       playBtn.style.display = 'none';
-      pauseBtn.style.display = 'block';
-    //} else {
-      //loading.style.display = 'block';
-     // playBtn.style.display = 'none';
-     // pauseBtn.style.display = 'none';
-    //}
+      pauseBtn.style.display = 'block';    
 
     // Keep track of the index we are currently playing.
     self.index = index;
@@ -122,7 +106,7 @@ Player.prototype = {
   skip: function(direction) {
     var self = this;
 
-    // Get the next track based on the direction of the track.
+    //Get index depending on direction
     var index = 0;
     if (direction === 'prev') {
       index = self.index - 1;
@@ -189,7 +173,7 @@ Player.prototype = {
     // Get the Howl we want to manipulate.
     var sound = self.playlist[self.index].howl;
 
-    // Convert the percent into a seek position.
+    // Convert percent into a certain position if playing
     if (sound.playing()) {
       sound.seek(sound.duration() * per);
     }
@@ -247,11 +231,12 @@ var player = new Player([
   }
 ]);
 
-//Init
+//Initialisation
 player.volume(0.5);
 document.getElementsByClassName('list-song')[0].classList.add('activ-song');
 
-// Bind our player controls.
+
+// Setup event listeners
 playBtn.addEventListener('click', function() {
   player.play();
 });
@@ -264,8 +249,6 @@ prevBtn.addEventListener('click', function() {
 nextBtn.addEventListener('click', function() {
   player.skip('next');
 });
-
-// Setup the event listeners to enable dragging of volume slider.
 barEmpty.addEventListener('click', function(event) {
   var per = event.layerX / parseFloat(barEmpty.scrollWidth);
   player.volume(per);
@@ -282,10 +265,13 @@ volume.addEventListener('mouseup', function() {
 volume.addEventListener('touchend', function() {
   window.sliderDown = false;
 });
+
+//Calculate position of the cursor on progress bar
 document.getElementById('progCtr').addEventListener('click', function(event) {
   player.seek(event.clientX / (event.currentTarget.offsetLeft +event.currentTarget.clientWidth) );
 });
 
+//Move slider and update volume
 var move = function(event) {
   if (window.sliderDown) {
     var x = event.clientX || event.touches[0].clientX;
@@ -301,6 +287,7 @@ volume.addEventListener('touchmove', move);
 var activSong;
 var elt;
 var songs = document.getElementsByClassName("list-song");
+
 for(var i=0; i<songs.length;i++){
   elt = songs[i];
   elt.addEventListener('click',function(event){    
