@@ -132,7 +132,7 @@ div.footer p {
   opacity: 0.9; }
 
 #progress {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 0, 0, 1);
   z-index: -1; }
 
 /* Loading */
@@ -165,7 +165,9 @@ div.footer p {
     opacity: 0; } }
 /* Plylist */
 #playlist {
-  background-color: rgba(0, 0, 0, 0.5); }
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 360px;
+  overflow: auto; }
 
 #list {
   display: -webkit-box;

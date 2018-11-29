@@ -1,18 +1,10 @@
-/*!
- *  Howler.js Audio Player Demo
- *  howlerjs.com
- *
- *  (c) 2013-2018, James Simpson of GoldFire Studios
- *  goldfirestudios.com
- *
- *  MIT License
- */
-
 // Cache references to DOM elements.
-var elms = ['track', 'timer', 'duration', 'playBtn', 'pauseBtn', 'prevBtn', 'nextBtn', 'playlistBtn', 'volumeBtn', 'progress', 'bar', 'wave', 'loading', 'playlist', 'list', 'volume', 'barEmpty', 'barFull', 'sliderBtn'];
+var elms = ['track', 'timer', 'duration', 'playBtn', 'pauseBtn', 'prevBtn', 'nextBtn', 'playlistBtn', 'volumeBtn', 'progress', 'bar', 'loading', 'playlist', 'list', 'volume', 'barEmpty', 'barFull', 'sliderBtn'];
 elms.forEach(function(elm) {
   window[elm] = document.getElementById(elm);
 });
+
+var isRandom = false;
 
 /**
  * Player class containing the state of our playlist and where we are in it.
@@ -65,6 +57,14 @@ Player.prototype = {
           requestAnimationFrame(self.step.bind(self));
 
         },
+        onend: function(){
+          if(isRandom){
+            var idrand = Math.floor(Math.random() * player.playlist.length);
+            self.skipTo(idrand);
+          }else{
+            self.skip('next');
+          }    
+        },
       });
     }
 
@@ -74,19 +74,13 @@ Player.prototype = {
     // Update the track display.
     track.innerHTML = (index + 1) + '. ' + data.title;
 
-    // Show the pause button.
-    //if (sound.state() === 'loaded') {
+    // Show pause button.
       playBtn.style.display = 'none';
-      pauseBtn.style.display = 'block';
-    //} else {
-      //loading.style.display = 'block';
-     // playBtn.style.display = 'none';
-     // pauseBtn.style.display = 'none';
-    //}
+      pauseBtn.style.display = 'block';    
 
     // Keep track of the index we are currently playing.
     self.index = index;
-  },
+  },  
 
   /**
    * Pause the currently playing track.
@@ -112,7 +106,7 @@ Player.prototype = {
   skip: function(direction) {
     var self = this;
 
-    // Get the next track based on the direction of the track.
+    //Get index depending on direction
     var index = 0;
     if (direction === 'prev') {
       index = self.index - 1;
@@ -179,7 +173,7 @@ Player.prototype = {
     // Get the Howl we want to manipulate.
     var sound = self.playlist[self.index].howl;
 
-    // Convert the percent into a seek position.
+    // Convert percent into a certain position if playing
     if (sound.playing()) {
       sound.seek(sound.duration() * per);
     }
@@ -203,32 +197,6 @@ Player.prototype = {
     if (sound.playing()) {
       requestAnimationFrame(self.step.bind(self));
     }
-  },
-
-  /**
-   * Toggle the playlist display on/off.
-   */
-  togglePlaylist: function() {
-    var self = this;
-    var display = (playlist.style.display === 'block') ? 'none' : 'block';
-
-    setTimeout(function() {
-      playlist.style.display = display;
-    }, (display === 'block') ? 0 : 500);
-    playlist.className = (display === 'block') ? 'fadein' : 'fadeout';
-  },
-
-  /**
-   * Toggle the volume display on/off.
-   */
-  toggleVolume: function() {
-    var self = this;
-    //var display = volume.style('display','block');
-
-    // setTimeout(function() {
-    //   volume.style.display = display;
-    // }, (display === 'block') ? 0 : 500);
-    // volume.className = (display === 'block') ? 'fadein' : 'fadeout';
   },
 
   /**
@@ -263,12 +231,12 @@ var player = new Player([
   }
 ]);
 
-//Init
+//Initialisation
 player.volume(0.5);
 document.getElementsByClassName('list-song')[0].classList.add('activ-song');
 
 
-// Bind our player controls.
+// Setup event listeners
 playBtn.addEventListener('click', function() {
   player.play();
 });
@@ -281,23 +249,6 @@ prevBtn.addEventListener('click', function() {
 nextBtn.addEventListener('click', function() {
   player.skip('next');
 });
-/*waveform.addEventListener('click', function(event) {
-  player.seek(event.clientX / window.innerWidth);
-});*/
-// playlistBtn.addEventListener('click', function() {
-//   player.togglePlaylist();
-// });
-// playlist.addEventListener('click', function() {
-//   player.togglePlaylist();
-// });
-volumeBtn.addEventListener('click', function() {
-  player.toggleVolume();
-});
-volume.addEventListener('click', function() {
-  player.toggleVolume();
-});
-
-// Setup the event listeners to enable dragging of volume slider.
 barEmpty.addEventListener('click', function(event) {
   var per = event.layerX / parseFloat(barEmpty.scrollWidth);
   player.volume(per);
@@ -315,10 +266,16 @@ volume.addEventListener('touchend', function() {
   window.sliderDown = false;
 });
 
+//Calculate position of the cursor on progress bar
+document.getElementById('progCtr').addEventListener('click', function(event) {
+  player.seek(event.clientX / (event.currentTarget.offsetLeft +event.currentTarget.clientWidth) );
+});
+
+//Move slider and update volume
 var move = function(event) {
   if (window.sliderDown) {
     var x = event.clientX || event.touches[0].clientX;
-    var per = (x-event.currentTarget.offsetLeft) / parseFloat(barEmpty.scrollWidth);    
+    var per = Math.min(1, Math.max(0, (x-event.currentTarget.offsetLeft) / parseFloat(barEmpty.scrollWidth)));    
     player.volume(per);
   }
 };
@@ -330,6 +287,7 @@ volume.addEventListener('touchmove', move);
 var activSong;
 var elt;
 var songs = document.getElementsByClassName("list-song");
+
 for(var i=0; i<songs.length;i++){
   elt = songs[i];
   elt.addEventListener('click',function(event){    
@@ -343,4 +301,30 @@ function removeActivSong(){
   if(activSong!=undefined){
     activSong[0].classList.remove('activ-song');
   }
+}
+
+function addSong(){
+  song = {
+    title: 'Numb',
+    file: 'numb',
+    howl: null
+  };
+
+  player.playlist.push(song);
+
+  var div = document.createElement('div');
+    div.className = 'list-song';
+    div.innerHTML = song.title;
+    div.onclick = function() {
+      player.skipTo(player.playlist.indexOf(song));
+    };
+    list.appendChild(div);
+}
+
+function mute(){
+  player.volume(0);
+}
+
+function setRandom(){
+  isRandom = !isRandom;  
 }
