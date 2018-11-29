@@ -318,8 +318,8 @@ function removeActivSong(){
 
 function addSong(){
   song = {
-    title: 'song',
-    file: '10YODW',
+    title: 'Numb',
+    file: 'numb',
     howl: null
   };
 
